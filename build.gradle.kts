@@ -2,17 +2,30 @@ plugins {
     id("fabric-loom")
     kotlin("jvm").version(System.getProperty("kotlin_version"))
 }
+
 base { archivesName.set(project.extra["archives_base_name"] as String) }
+
 version = project.extra["mod_version"] as String
+
 group = project.extra["maven_group"] as String
-repositories {}
+
+repositories {
+    maven(uri("https://maven.wispforest.io"))
+    maven( uri("https://jitpack.io") )
+}
+
 dependencies {
     minecraft("com.mojang", "minecraft", project.extra["minecraft_version"] as String)
     mappings("net.fabricmc", "yarn", project.extra["yarn_mappings"] as String, null, "v2")
     modImplementation("net.fabricmc", "fabric-loader", project.extra["loader_version"] as String)
     modImplementation("net.fabricmc.fabric-api", "fabric-api", project.extra["fabric_version"] as String)
     modImplementation("net.fabricmc", "fabric-language-kotlin", project.extra["fabric_language_kotlin_version"] as String)
+
+    modImplementation("com.github.DaFuqs", "revelationary", project.extra["revelationary_lib_version"] as String)
+    modImplementation("io.wispforest", "owo-lib", project.extra["owo_lib_version"] as String)
+    include("io.wispforest", "owo-sentinel", project.extra["owo_lib_version"] as String)
 }
+
 tasks {
     val javaVersion = JavaVersion.toVersion((project.extra["java_version"] as String).toInt())
     withType<JavaCompile> {
