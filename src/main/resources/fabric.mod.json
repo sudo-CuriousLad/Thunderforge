@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "id": "mod_id",
+  "id": "thunderforge",
   "version": "${version}",
-  "name": "Mod Name",
+  "name": "Thunderforge",
   "description": "Mod Description",
   "authors": [
     "Author"
@@ -13,18 +13,23 @@
     "sources": "https://example.com/"
   },
   "license": "The Unlicense",
-  "icon": "assets/mod_name/icon.png",
+  "icon": "assets/thunderforge/icon.png",
   "environment": "*",
   "entrypoints": {
     "main": [
       {
         "adapter": "kotlin",
-        "value": "com.mod_author.mod_id.ModName"
+        "value": "com.curiouslad.thunderforge.Thunderforge"
       }
+    ],
+    "client": [{
+      "adapter": "kotlin",
+      "value": "com.curiouslad.thunderforge.client.ThunderforgeClient"
+    }
     ]
   },
   "mixins": [
-    "mod_id.mixins.json"
+    "thunderforge.mixins.json"
   ],
   "depends": {
     "fabricloader": ">=${fabricloader}",
@@ -32,5 +37,7 @@
     "fabric-language-kotlin": ">=${fabric_language_kotlin}",
     "minecraft": ">=${minecraft}",
     "java": ">=${java}"
-  }
+  },
+  "accessWidener" : "thunderforge.accesswidener"
+
 }

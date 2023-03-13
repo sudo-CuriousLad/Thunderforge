@@ -13,6 +13,11 @@ dependencies {
     modImplementation("net.fabricmc.fabric-api", "fabric-api", project.extra["fabric_version"] as String)
     modImplementation("net.fabricmc", "fabric-language-kotlin", project.extra["fabric_language_kotlin_version"] as String)
 }
+
+loom {
+    accessWidenerPath.set(file("src/main/resources/thunderforge.accesswidener"))
+}
+
 tasks {
     val javaVersion = JavaVersion.toVersion((project.extra["java_version"] as String).toInt())
     withType<JavaCompile> {
@@ -34,3 +39,4 @@ tasks {
         withSourcesJar()
     }
 }
+

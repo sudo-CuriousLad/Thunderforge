@@ -1,0 +1,12 @@
+{
+  "required": true,
+  "package": "com.curiouslad.thunderforge.mixins",
+  "compatibilityLevel": "JAVA_${java}",
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "mixins": [],
+  "client": [
+    "client.accessors.RenderLayerAccessor"
+  ]
+}
