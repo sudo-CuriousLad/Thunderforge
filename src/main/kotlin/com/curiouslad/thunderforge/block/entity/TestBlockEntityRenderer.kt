@@ -9,6 +9,7 @@ import net.minecraft.client.render.block.entity.BlockEntityRenderer
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.state.property.BooleanProperty
 import net.minecraft.util.Identifier
+import kotlin.math.cos
 import kotlin.math.sin
 
 @Environment(EnvType.CLIENT)
@@ -40,17 +41,32 @@ open class TestBlockEntityRenderer: BlockEntityRenderer<TestBlockEntity> {
         val world = entity?.world
         val pos= entity?.pos
         val time = entity?.world!!.time % 50000 + tickDelta
-        val ifPowered = world?.getBlockState(pos)?.get(BooleanProperty.of("powered"))!!
         matrices?.push()
-        circle.yaw = time / 25.0f
-        val offset = sin((time / 8.0f).toDouble())
-        matrices?.translate(0.0, 1.25 + offset.toFloat(), 0.0)
-        circle.render(
+        if (world?.getBlockState(pos)?.properties?.contains(BooleanProperty.of("powered")) == true) {
+            val ifPowered = world?.getBlockState(pos)?.get(BooleanProperty.of("powered"))
+            circle.yaw = time / 25.0f
+            circle.pitch = sin(time /8.0f) * Math.toRadians(15.0).toFloat()
+            circle.roll = cos(time /4.0f) * Math.toRadians(15.0).toFloat()
+            //val offset = sin((time / 8.0f).toDouble())
+            //matrices?.translate(0.0, 1.25 + offset.toFloat(), 0.0)
+
+            circle.render(
                 matrices,
-                vertexConsumers?.getBuffer(ThunderforgeRenderLayers.EmissiveLayer.get( if(ifPowered) {texture1} else {texture2})),
+                vertexConsumers?.getBuffer(
+                    ThunderforgeRenderLayers.EmissiveLayer.get(
+                        if (ifPowered == true) {
+                            texture2
+                        } else {
+                            texture1
+                        }
+                    )
+                ),
                 light,
                 overlay
-        )
+            )
+        }
         matrices?.pop()
-    }
+        }
+
+
 }
