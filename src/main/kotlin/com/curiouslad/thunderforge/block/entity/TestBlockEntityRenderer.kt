@@ -21,10 +21,10 @@ open class TestBlockEntityRenderer: BlockEntityRenderer<TestBlockEntity> {
     private val circle: ModelPart = getTexturedModelData().createModel().getChild("circle")
 
     private val pathArray: Array<Vector3d> = arrayOf(
-        Vector3d(0.1),
-        Vector3d(0.1, 0.0, 0.0),
-        Vector3d(0.0, 0.0, 0.1),
-        Vector3d(0.1, 0.0, 1.0)
+        Vector3d(0.0, -1.0, 0.0),
+        Vector3d(0.0, 1.0, 0.0),
+        Vector3d(0.0, -1.0, 0.0),
+        Vector3d(0.0, 1.0, 0.0),
     )
 
     private val interpolator = LinearSpline(initPos = Vector3d(0.0, 0.0, 0.0), posArray = pathArray)
@@ -59,7 +59,7 @@ open class TestBlockEntityRenderer: BlockEntityRenderer<TestBlockEntity> {
             circle.pitch = sin(time /8.0f) * Math.toRadians(15.0).toFloat()
             circle.roll = cos(time /4.0f) * Math.toRadians(15.0).toFloat()
 
-            interpolator.transform(matrices!!, 0.01)
+            interpolator.transform(matrices!!, 0.05)
 
             circle.render(
                 matrices,
