@@ -21,13 +21,13 @@ open class TestBlockEntityRenderer: BlockEntityRenderer<TestBlockEntity> {
     private val circle: ModelPart = getTexturedModelData().createModel().getChild("circle")
 
     private val pathArray: Array<Vector3d> = arrayOf(
-        Vector3d(0.0, -1.0, 0.0),
-        Vector3d(0.0, 1.0, 0.0),
-        Vector3d(0.0, -1.0, 0.0),
-        Vector3d(0.0, 1.0, 0.0),
+        Vector3d(-1.0, -1.0, -1.0),
+        Vector3d(1.0, 1.0, 1.0),
+        Vector3d(1.0, 1.0, 1.0),
+        Vector3d(-1.0, -1.0, -1.0)
     )
 
-    private val interpolator = LinearSpline(initPos = Vector3d(0.0, 0.0, 0.0), posArray = pathArray)
+    private val interpolator = LinearSpline(posArray = pathArray)
 
     private fun getTexturedModelData(): TexturedModelData {
         val modelData = ModelData()
@@ -54,12 +54,12 @@ open class TestBlockEntityRenderer: BlockEntityRenderer<TestBlockEntity> {
         val time = entity?.world!!.time % 50000 + tickDelta
         matrices?.push()
         if (world?.getBlockState(pos)?.properties?.contains(BooleanProperty.of("powered")) == true) {
-            val ifPowered = world?.getBlockState(pos)?.get(BooleanProperty.of("powered"))
+            val ifPowered = world.getBlockState(pos)?.get(BooleanProperty.of("powered"))
             circle.yaw = time / 25.0f
             circle.pitch = sin(time /8.0f) * Math.toRadians(15.0).toFloat()
             circle.roll = cos(time /4.0f) * Math.toRadians(15.0).toFloat()
 
-            interpolator.transform(matrices!!, 0.05)
+            interpolator.transform(matrices!!)
 
             circle.render(
                 matrices,
