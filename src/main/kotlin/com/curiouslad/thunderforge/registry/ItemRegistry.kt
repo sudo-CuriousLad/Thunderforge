@@ -8,6 +8,15 @@ import net.minecraft.util.Identifier
 
 object ItemRegistry {
     fun register() {
-        Registry.register(Registries.ITEM, Identifier("thunderforge", "test_block_item"), BlockItem(BlockRegistry.TEST_BLOCK, Item.Settings()))
+        Registry.register(
+            Registries.ITEM,
+            Identifier("thunderforge", "test_block_item"),
+            BlockItem(BlockRegistry.TEST_BLOCK, Item.Settings())
+        )
+        Registry.register(
+            Registries.ITEM,
+            Identifier("thunderforge", "ghost_generator_item"),
+            BlockItem(BlockRegistry.GHOST_GENERATOR, Item.Settings())
+        )
     }
 }
