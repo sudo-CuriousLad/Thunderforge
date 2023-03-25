@@ -20,15 +20,4 @@ interface MultiblockController {
 
         return blocksPresent == blockArray.size
     }
-
-
-    //Assigns the controller position to each block in the multiblock's block array.
-    fun assignToMulti(world: World?) {
-        for (pair in blockArray) {
-            val state = world!!.getBlockState(pair.first)
-            if (state.properties.contains(BlockPosProperty("controller"))) {
-                world!!.setBlockState(pair.first, state.withIfExists(BlockPosProperty("controller"), pair.first))
-            }
-        }
-    }
 }
