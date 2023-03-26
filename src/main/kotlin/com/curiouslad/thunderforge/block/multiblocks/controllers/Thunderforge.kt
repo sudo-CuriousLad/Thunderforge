@@ -1,5 +1,6 @@
 package com.curiouslad.thunderforge.block.multiblocks.controllers
 
+import com.curiouslad.thunderforge.block.multiblocks.controllers.entity.ThunderforgeBlockEntity
 import com.curiouslad.thunderforge.block.multiblocks.members.GhostBrick
 import com.curiouslad.thunderforge.multiblocks.interfaces.MultiblockController
 import net.minecraft.block.Block
@@ -7,9 +8,9 @@ import net.minecraft.block.BlockState
 import net.minecraft.block.BlockWithEntity
 import net.minecraft.block.Material
 import net.minecraft.block.entity.BlockEntity
-import net.minecraft.block.entity.BlockEntityTicker
-import net.minecraft.block.entity.BlockEntityType
+import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
 import net.minecraft.state.StateManager
 import net.minecraft.state.property.BooleanProperty
@@ -19,10 +20,10 @@ import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 
-class GhostGenerator() : MultiblockController, BlockWithEntity(Settings.of(Material.AMETHYST)) {
+class Thunderforge : MultiblockController, BlockWithEntity(Settings.of(Material.AMETHYST)) {
     override val blockArray: Array<Pair<BlockPos, Block>> = arrayOf(Pair(BlockPos(0, 1, 0), GhostBrick()))
     override fun createBlockEntity(pos: BlockPos?, state: BlockState?): BlockEntity? {
-        TODO("Not yet implemented")
+        return ThunderforgeBlockEntity(pos, state)
     }
 
     override fun appendProperties(builder: StateManager.Builder<Block, BlockState>?) {
@@ -45,11 +46,14 @@ class GhostGenerator() : MultiblockController, BlockWithEntity(Settings.of(Mater
         return super.onUse(state, world, pos, player, hand, hit)
     }
 
-    override fun <T : BlockEntity?> getTicker(
+    override fun onPlaced(
         world: World?,
+        pos: BlockPos?,
         state: BlockState?,
-        type: BlockEntityType<T>?
-    ): BlockEntityTicker<T>? {
-        return super.getTicker(world, state, type)
+        placer: LivingEntity?,
+        itemStack: ItemStack?
+    ) {
+        
+        super.onPlaced(world, pos, state, placer, itemStack)
     }
 }

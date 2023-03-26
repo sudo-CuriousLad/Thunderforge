@@ -9,8 +9,6 @@ import net.minecraft.world.WorldAccess
 //Class for all blocks that will be part of multiblocks.
 open class MultiblockMember(settings: Settings): Block(settings) {
 
-    init {
-    }
 
 
     override fun onBroken(world: WorldAccess?, pos: BlockPos?, state: BlockState?) {

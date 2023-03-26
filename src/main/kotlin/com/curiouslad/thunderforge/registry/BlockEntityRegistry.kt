@@ -1,7 +1,7 @@
 package com.curiouslad.thunderforge.registry
 
 import com.curiouslad.thunderforge.block.entity.TestBlockEntity
-import com.curiouslad.thunderforge.block.multiblocks.controllers.entity.GhostGeneratorBlockEntity
+import com.curiouslad.thunderforge.block.multiblocks.controllers.entity.ThunderforgeBlockEntity
 import net.fabricmc.fabric.api.`object`.builder.v1.block.entity.FabricBlockEntityTypeBuilder
 import net.minecraft.block.entity.BlockEntityType
 import net.minecraft.registry.Registries
@@ -16,11 +16,11 @@ object BlockEntityRegistry {
             .build()
     )
 
-    val GHOST_GENERATOR_BLOCK_ENTITY: BlockEntityType<GhostGeneratorBlockEntity> = Registry.register(
+    val GHOST_GENERATOR_BLOCK_ENTITY: BlockEntityType<ThunderforgeBlockEntity> = Registry.register(
         Registries.BLOCK_ENTITY_TYPE,
         Identifier("thunderforge", "ghost_generator_block_entity"),
         FabricBlockEntityTypeBuilder.create(
-            { pos, state -> GhostGeneratorBlockEntity(pos, state) },
+            { pos, state -> ThunderforgeBlockEntity(pos, state) },
             BlockRegistry.GHOST_GENERATOR
         )
             .build()
