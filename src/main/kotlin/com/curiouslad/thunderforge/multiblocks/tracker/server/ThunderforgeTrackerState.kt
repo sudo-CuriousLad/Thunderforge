@@ -1,13 +1,15 @@
 package com.curiouslad.thunderforge.multiblocks.tracker.server
 
-import com.curiouslad.thunderforge.multiblocks.tracker.ThunderforgeTracker
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtIntArray
 import net.minecraft.nbt.NbtList
 import net.minecraft.nbt.NbtTypes
+import net.minecraft.server.MinecraftServer
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Box
 import net.minecraft.world.PersistentState
+import net.minecraft.world.World
+import java.util.function.Function
 
 class ThunderforgeTrackerState : PersistentState() {
 
@@ -42,7 +44,7 @@ class ThunderforgeTrackerState : PersistentState() {
         return nbt
     }
 
-    fun fromNbt(nbt: NbtCompound?) {
+    fun fromNbt(nbt: NbtCompound?): ThunderforgeTrackerState {
         val serverState = ThunderforgeTrackerState()
 
         var controllerArray: Array<BlockPos> = arrayOf()
@@ -70,6 +72,21 @@ class ThunderforgeTrackerState : PersistentState() {
             boxCoords[5].toDouble()
         )
 
+        return serverState
+
+    }
+
+    fun getServerState(server: MinecraftServer): ThunderforgeTrackerState {
+
+        var persistentStateManager = server.getWorld(World.OVERWORLD)!!.persistentStateManager
+
+        var thunderforgeTrackerState: ThunderforgeTrackerState =persistentStateManager.getOrCreate(Function {ThunderforgeTrackerState().fromNbt(it)},
+            { ThunderforgeTrackerState() }, "thunderforge")
+
+
+        thunderforgeTrackerState.markDirty()
+
+        return  thunderforgeTrackerState
 
     }
 

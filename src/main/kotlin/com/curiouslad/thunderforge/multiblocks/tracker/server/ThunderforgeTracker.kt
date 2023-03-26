@@ -1,4 +1,4 @@
-package com.curiouslad.thunderforge.multiblocks.tracker
+package com.curiouslad.thunderforge.multiblocks.tracker.server
 
 import com.curiouslad.thunderforge.multiblocks.interfaces.MultiblockTracker
 import net.minecraft.util.math.BlockPos
