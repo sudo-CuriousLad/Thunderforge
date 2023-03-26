@@ -16,7 +16,7 @@ object ItemRegistry {
         Registry.register(
             Registries.ITEM,
             Identifier("thunderforge", "ghost_generator_item"),
-            BlockItem(BlockRegistry.GHOST_GENERATOR, Item.Settings())
+            BlockItem(BlockRegistry.THUNDERFORGE, Item.Settings())
         )
     }
 }

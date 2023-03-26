@@ -8,10 +8,10 @@ import net.minecraft.util.Identifier
 
 object BlockRegistry {
     val TEST_BLOCK = TestBlock()
-    val GHOST_GENERATOR = Thunderforge()
+    val THUNDERFORGE = Thunderforge()
 
     fun register() {
         Registry.register(Registries.BLOCK, Identifier("thunderforge", "test_block"), TEST_BLOCK)
-        Registry.register(Registries.BLOCK, Identifier("thunderforge", "ghost_generator"), GHOST_GENERATOR)
+        Registry.register(Registries.BLOCK, Identifier("thunderforge", "thunderforge"), THUNDERFORGE)
     }
 }

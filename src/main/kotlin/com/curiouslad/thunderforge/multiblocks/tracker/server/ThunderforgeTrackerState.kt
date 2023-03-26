@@ -6,10 +6,8 @@ import net.minecraft.nbt.NbtList
 import net.minecraft.nbt.NbtTypes
 import net.minecraft.server.MinecraftServer
 import net.minecraft.util.math.BlockPos
-import net.minecraft.util.math.Box
 import net.minecraft.world.PersistentState
 import net.minecraft.world.World
-import java.util.function.Function
 
 class ThunderforgeTrackerState : PersistentState() {
 
@@ -44,15 +42,10 @@ class ThunderforgeTrackerState : PersistentState() {
         return nbt
     }
 
-    fun fromNbt(nbt: NbtCompound?): ThunderforgeTrackerState {
+    private fun fromNbt(nbt: NbtCompound?): ThunderforgeTrackerState {
         val serverState = ThunderforgeTrackerState()
 
-        var controllerArray: Array<BlockPos> = arrayOf()
-
-        lateinit var box: Box
-
-        val boxCoords = nbt!!.getIntArray("thunderforgeBox")
-
+        val controllerArray: Array<BlockPos> = arrayOf()
 
         nbt!!.getList("thunderforgeControllers", 9).forEach {
             if (it.nbtType == NbtTypes.byId(11)) {
@@ -62,25 +55,16 @@ class ThunderforgeTrackerState : PersistentState() {
             }
         }
 
-        serverState.tracker.controllerArray = controllerArray
-        serverState.tracker.box = Box(
-            boxCoords[0].toDouble(),
-            boxCoords[1].toDouble(),
-            boxCoords[2].toDouble(),
-            boxCoords[3].toDouble(),
-            boxCoords[4].toDouble(),
-            boxCoords[5].toDouble()
-        )
-
         return serverState
 
     }
 
     fun getServerState(server: MinecraftServer): ThunderforgeTrackerState {
 
-        var persistentStateManager = server.getWorld(World.OVERWORLD)!!.persistentStateManager
+        val persistentStateManager = server.getWorld(World.OVERWORLD)!!.persistentStateManager
 
-        var thunderforgeTrackerState: ThunderforgeTrackerState =persistentStateManager.getOrCreate(Function {ThunderforgeTrackerState().fromNbt(it)},
+        val thunderforgeTrackerState: ThunderforgeTrackerState =persistentStateManager.getOrCreate(
+            {ThunderforgeTrackerState().fromNbt(it)},
             { ThunderforgeTrackerState() }, "thunderforge")
 
 

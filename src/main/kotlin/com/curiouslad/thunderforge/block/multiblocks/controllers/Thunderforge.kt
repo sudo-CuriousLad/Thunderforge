@@ -1,13 +1,10 @@
 package com.curiouslad.thunderforge.block.multiblocks.controllers
 
 import com.curiouslad.thunderforge.block.multiblocks.controllers.entity.ThunderforgeBlockEntity
-import com.curiouslad.thunderforge.block.multiblocks.members.GhostBrick
+//import com.curiouslad.thunderforge.block.multiblocks.members.GhostBrick
 import com.curiouslad.thunderforge.multiblocks.interfaces.MultiblockController
 import com.curiouslad.thunderforge.multiblocks.tracker.server.ThunderforgeTrackerState
-import net.minecraft.block.Block
-import net.minecraft.block.BlockState
-import net.minecraft.block.BlockWithEntity
-import net.minecraft.block.Material
+import net.minecraft.block.*
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
@@ -23,7 +20,7 @@ import net.minecraft.world.World
 import net.minecraft.world.WorldAccess
 
 class Thunderforge : MultiblockController, BlockWithEntity(Settings.of(Material.AMETHYST)) {
-    override val blockArray: Array<Pair<BlockPos, Block>> = arrayOf(Pair(BlockPos(0, 1, 0), GhostBrick()))
+    override val blockArray: Array<Pair<BlockPos, Block>> = arrayOf(Pair(BlockPos(0, 1, 0), Blocks.AMETHYST_BLOCK))
     override fun createBlockEntity(pos: BlockPos?, state: BlockState?): BlockEntity? {
         return ThunderforgeBlockEntity(pos, state)
     }
@@ -55,7 +52,7 @@ class Thunderforge : MultiblockController, BlockWithEntity(Settings.of(Material.
         placer: LivingEntity?,
         itemStack: ItemStack?
     ) {
-        val thunderforgeTrackerState = ThunderforgeTrackerState().getServerState(world!!.server!!)
+        var thunderforgeTrackerState = ThunderforgeTrackerState().getServerState(world?.server!!)
         thunderforgeTrackerState.tracker.controllerArray.plus(pos!!)
         super.onPlaced(world, pos, state, placer, itemStack)
     }

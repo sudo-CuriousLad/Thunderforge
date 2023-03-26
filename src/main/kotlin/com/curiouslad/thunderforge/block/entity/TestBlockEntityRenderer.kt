@@ -78,6 +78,4 @@ open class TestBlockEntityRenderer: BlockEntityRenderer<TestBlockEntity> {
         }
         matrices?.pop()
         }
-
-
 }

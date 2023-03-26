@@ -6,7 +6,7 @@ import net.minecraft.util.math.Box
 
 class ThunderforgeTracker : MultiblockTracker<BlockPos> {
     override var controllerArray: Array<BlockPos> = emptyArray()
-    override var box = Box(BlockPos.ZERO.add(-1, 0, 0) as BlockPos?, BlockPos.ZERO.add(1, 2, 2) as BlockPos?)
+    override var box = Box(BlockPos.ORIGIN.add(-1, 0, 0) , BlockPos.ORIGIN.add(1, 2, 2) )
 
 
 }

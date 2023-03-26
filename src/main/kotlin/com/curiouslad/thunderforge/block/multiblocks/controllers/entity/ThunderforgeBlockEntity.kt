@@ -6,5 +6,5 @@ import net.minecraft.block.entity.BlockEntity
 import net.minecraft.util.math.BlockPos
 
 class ThunderforgeBlockEntity(pos: BlockPos?, state: BlockState?) :
-    BlockEntity(BlockEntityRegistry.GHOST_GENERATOR_BLOCK_ENTITY, pos, state) {
+    BlockEntity(BlockEntityRegistry.THUNDERFORGE_BLOCK_ENTITY, pos, state) {
 }

@@ -16,12 +16,12 @@ object BlockEntityRegistry {
             .build()
     )
 
-    val GHOST_GENERATOR_BLOCK_ENTITY: BlockEntityType<ThunderforgeBlockEntity> = Registry.register(
+    val THUNDERFORGE_BLOCK_ENTITY: BlockEntityType<ThunderforgeBlockEntity> = Registry.register(
         Registries.BLOCK_ENTITY_TYPE,
-        Identifier("thunderforge", "ghost_generator_block_entity"),
+        Identifier("thunderforge", "thunderforge_block_entity"),
         FabricBlockEntityTypeBuilder.create(
             { pos, state -> ThunderforgeBlockEntity(pos, state) },
-            BlockRegistry.GHOST_GENERATOR
+            BlockRegistry.THUNDERFORGE
         )
             .build()
     )
