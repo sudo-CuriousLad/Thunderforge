@@ -1,6 +1,8 @@
 package com.curiouslad.thunderforge.multiblocks.interfaces
 
+import com.curiouslad.thunderforge.multiblocks.MultiblockMember
 import net.minecraft.block.Block
+import net.minecraft.state.property.EnumProperty
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 
@@ -20,4 +22,16 @@ interface MultiblockController {
 
         return blocksPresent == blockArray.size
     }
+
+    //Sets the block states of the blocks used in the multi.
+    fun setBlockStates(world: World?, controller: MultiblockMember.ThunderforgeMultis) {
+        val array = blockArray.filter { it.second is MultiblockMember }
+
+        array.forEach { world!!.setBlockState(it.first,
+            world.getBlockState(it.first)
+                .withIfExists(EnumProperty.of("current_multi", controller.javaClass), controller)
+        )
+        }
+    }
+
 }

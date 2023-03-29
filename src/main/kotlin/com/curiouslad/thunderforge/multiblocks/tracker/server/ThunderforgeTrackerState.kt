@@ -11,14 +11,14 @@ import net.minecraft.world.World
 
 class ThunderforgeTrackerState : PersistentState() {
 
-    var tracker: ThunderforgeTracker = ThunderforgeTracker()
+    var tracker= ThunderforgeTracker().controllerArray
 
     override fun writeNbt(nbt: NbtCompound?): NbtCompound {
 
         val controllerList = NbtList()
 
-        for (i in tracker.controllerArray) {
-            tracker.controllerArray.forEach {
+        for (i in tracker) {
+            tracker.forEach {
                 val intArray = IntArray(3) { i ->
                     when (i) {
                         0 -> it.x
@@ -31,14 +31,7 @@ class ThunderforgeTrackerState : PersistentState() {
             }
         }
 
-        val boxCoords = arrayOf(-1, 0, 0, 1, 2, 2)
-
-        val boxList = IntArray(6) {
-            boxCoords[it]
-        }
-
         nbt!!.put("thunderforgeControllers", controllerList)
-        nbt.putIntArray("thunderforgeBox", boxList)
         return nbt
     }
 
@@ -61,16 +54,15 @@ class ThunderforgeTrackerState : PersistentState() {
 
     fun getServerState(server: MinecraftServer): ThunderforgeTrackerState {
 
-        val persistentStateManager = server.getWorld(World.OVERWORLD)!!.persistentStateManager
+        val persistentStateManager = server.getWorld(World.OVERWORLD)?.persistentStateManager
 
-        val thunderforgeTrackerState: ThunderforgeTrackerState =persistentStateManager.getOrCreate(
+        val thunderforgeTrackerState: ThunderforgeTrackerState = persistentStateManager!!.getOrCreate(
             {ThunderforgeTrackerState().fromNbt(it)},
             { ThunderforgeTrackerState() }, "thunderforge")
 
-
         thunderforgeTrackerState.markDirty()
 
-        return  thunderforgeTrackerState
+        return thunderforgeTrackerState
 
     }
 
