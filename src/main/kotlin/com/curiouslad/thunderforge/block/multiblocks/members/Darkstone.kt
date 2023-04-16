@@ -1,8 +1,7 @@
 package com.curiouslad.thunderforge.block.multiblocks.members
 
-import com.curiouslad.thunderforge.multiblocks.MultiblockMember
-import net.minecraft.block.Material
-
-class Darkstone : MultiblockMember(settings = Settings.of(Material.AMETHYST)) {
-
-}
+//class Darkstone : MultiblockMember(Settings.of(Material.AMETHYST)) {
+//    override fun appendProperties(builder: StateManager.Builder<Block, BlockState>?) {
+//        builder!!.add(EnumProperty.of("current_multi", ThunderforgeMultis.THUNDERFORGE.declaringJavaClass))
+////    }
+//}

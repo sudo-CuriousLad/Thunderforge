@@ -1,39 +1,73 @@
 package com.curiouslad.thunderforge.block.multiblocks.controllers
 
-import com.curiouslad.thunderforge.block.multiblocks.controllers.entity.ThunderforgeBlockEntity
-import com.curiouslad.thunderforge.multiblocks.MultiblockMember
 //import com.curiouslad.thunderforge.block.multiblocks.members.GhostBrick
+import com.curiouslad.thunderforge.block.multiblocks.controllers.entity.ThunderforgeBlockEntity
 import com.curiouslad.thunderforge.multiblocks.interfaces.MultiblockController
 import com.curiouslad.thunderforge.multiblocks.tracker.server.ThunderforgeTrackerState
 import net.minecraft.block.*
 import net.minecraft.block.entity.BlockEntity
+import net.minecraft.block.pattern.BlockPattern
+import net.minecraft.block.pattern.BlockPatternBuilder
+import net.minecraft.block.pattern.CachedBlockPosition
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.item.ItemPlacementContext
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
+import net.minecraft.predicate.block.BlockStatePredicate
 import net.minecraft.state.StateManager
 import net.minecraft.state.property.BooleanProperty
+import net.minecraft.state.property.DirectionProperty
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.util.hit.BlockHitResult
-import net.minecraft.util.math.BlockPos
+import net.minecraft.util.math.*
 import net.minecraft.world.World
 import net.minecraft.world.WorldAccess
 
 class Thunderforge : MultiblockController, BlockWithEntity(Settings.of(Material.AMETHYST)) {
-    override val blockArray: Array<Pair<BlockPos, Block>> = arrayOf(Pair(BlockPos(0, 1, 0), Blocks.AMETHYST_BLOCK))
+   override val blockPattern: BlockPattern = BlockPatternBuilder.start().
+   aisle(
+       "___",
+       "_d_",
+       "d_d",
+       "s_s",
+       "sds"
+   ).
+   aisle(
+       "_d_",
+       "d_d",
+       "___",
+       "_c_",
+       "ddd",
+   ).
+   aisle(
+       "___",
+       "_d_",
+       "d_d",
+       "s_s",
+       "sds"
+   ).
+   where('_', CachedBlockPosition.matchesBlockState(BlockStatePredicate.ANY)).
+   where('d', CachedBlockPosition.matchesBlockState(BlockStatePredicate.forBlock(Blocks.POLISHED_BLACKSTONE))).
+   where('s', CachedBlockPosition.matchesBlockState(BlockStatePredicate.forBlock(Blocks.BLACKSTONE))).
+   where('c', CachedBlockPosition.matchesBlockState(BlockStatePredicate.forBlock(this))).
+   build()
+
+    override val boundingBox: Box = Box(Vec3d.of(Vec3i(-1, -1, -1)),Vec3d.of(Vec3i(1, 4, 1)))
 
     private var FORMED: BooleanProperty = BooleanProperty.of("formed")
+    private var FACING = DirectionProperty.of("facing")
 
     init {
-        defaultState = defaultState.with(FORMED, false)
+        defaultState = defaultState.with(FORMED, false).with(FACING, Direction.NORTH)
     }
     override fun createBlockEntity(pos: BlockPos?, state: BlockState?): BlockEntity {
         return ThunderforgeBlockEntity(pos, state)
     }
 
     override fun appendProperties(builder: StateManager.Builder<Block, BlockState>?) {
-        builder!!.add(BooleanProperty.of("formed"))
+        builder!!.add(BooleanProperty.of("formed")).add(DirectionProperty.of("facing"))
     }
 
     @Deprecated("Deprecated in Java")
@@ -45,11 +79,15 @@ class Thunderforge : MultiblockController, BlockWithEntity(Settings.of(Material.
         hand: Hand?,
         hit: BlockHitResult?
     ): ActionResult {
-        if (player!!.isHolding(Items.AMETHYST_SHARD) && !world.getBlockState(pos).get(FORMED)) {
-            if (canForm(world, pos!!)) {
-                world.setBlockState(pos, state!!.with(FORMED, true))
-                setBlockStates(world, MultiblockMember.ThunderforgeMultis.THUNDERFORGE)
+        if (!world.isClient) {
+            if (player!!.isHolding(Items.AMETHYST_SHARD) && !world.getBlockState(pos).get(FORMED)) {
+                if (canForm(world, pos!!, player.world.registryKey) != null) {
+                    world.setBlockState(pos, state!!.with(FORMED, true))
+                    boundingBox.
+                }
             }
+        } else {
+            return ActionResult.PASS
         }
 
 
@@ -87,6 +125,7 @@ class Thunderforge : MultiblockController, BlockWithEntity(Settings.of(Material.
         super.onBroken(world, pos, state)
     }
 
+    @Deprecated("Deprecated in Java")
     override fun neighborUpdate(
         state: BlockState?,
         world: World?,
@@ -107,5 +146,9 @@ class Thunderforge : MultiblockController, BlockWithEntity(Settings.of(Material.
         arrList.removeAt(itemIndex)
 
         return arrList.toTypedArray()
+    }
+
+    override fun getPlacementState(ctx: ItemPlacementContext?): BlockState? {
+        return super.getPlacementState(ctx)!!.with(FACING, ctx!!.playerFacing.opposite)
     }
 }
