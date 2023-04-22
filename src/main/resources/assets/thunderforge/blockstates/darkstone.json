@@ -1,0 +1,6 @@
+{
+  "variants": {
+    "disable_renderer=false`": { "model": "thunderforge:block/darkstone.json" }
+  }
+}
+

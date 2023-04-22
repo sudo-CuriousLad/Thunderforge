@@ -18,10 +18,10 @@ object ItemRegistry {
             Identifier("thunderforge", "thunderforge_item"),
             BlockItem(BlockRegistry.THUNDERFORGE, Item.Settings())
         )
-//        Registry.register(
-//            Registries.ITEM,
-//            Identifier("thunderforge", "darkstone_item"),
-//            BlockItem(BlockRegistry.DARKSTONE, Item.Settings())
-//        )
+        Registry.register(
+            Registries.ITEM,
+            Identifier("thunderforge", "darkstone_item"),
+            BlockItem(BlockRegistry.DARKSTONE, Item.Settings())
+        )
     }
 }

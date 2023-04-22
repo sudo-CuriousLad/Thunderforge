@@ -10,4 +10,8 @@ class Darkstone : Block(Settings.of(Material.AMETHYST).nonOpaque()) {
     override fun appendProperties(builder: StateManager.Builder<Block, BlockState>?) {
         builder!!.add(BooleanProperty.of("disable_renderer"))
     }
+
+    init {
+        defaultState = defaultState.with(BooleanProperty.of("disable_renderer"), false)
+    }
 }
