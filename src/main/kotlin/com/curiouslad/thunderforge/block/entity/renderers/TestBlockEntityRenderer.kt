@@ -1,5 +1,6 @@
-package com.curiouslad.thunderforge.block.entity
+package com.curiouslad.thunderforge.block.entity.renderers
 
+import com.curiouslad.thunderforge.block.entity.TestBlockEntity
 import com.curiouslad.thunderforge.block.misc.ThunderforgeRenderLayers
 import com.curiouslad.thunderforge.interpolation.LinearSpline
 import net.fabricmc.api.EnvType

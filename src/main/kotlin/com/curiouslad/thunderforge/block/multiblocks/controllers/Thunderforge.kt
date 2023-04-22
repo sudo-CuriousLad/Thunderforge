@@ -4,10 +4,10 @@ package com.curiouslad.thunderforge.block.multiblocks.controllers
 import com.curiouslad.thunderforge.block.multiblocks.controllers.entity.ThunderforgeBlockEntity
 import com.curiouslad.thunderforge.multiblocks.interfaces.MultiblockController
 import com.curiouslad.thunderforge.multiblocks.tracker.server.ThunderforgeTrackerState
-import com.curiouslad.thunderforge.multiblocks.util.CustomBlockPattern
-import com.curiouslad.thunderforge.multiblocks.util.CustomBlockPatternBuilder
 import net.minecraft.block.*
 import net.minecraft.block.entity.BlockEntity
+import net.minecraft.block.pattern.BlockPattern
+import net.minecraft.block.pattern.BlockPatternBuilder
 import net.minecraft.block.pattern.CachedBlockPosition
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
@@ -26,7 +26,7 @@ import net.minecraft.world.World
 import net.minecraft.world.WorldAccess
 
 class Thunderforge : MultiblockController, BlockWithEntity(Settings.of(Material.AMETHYST)) {
-   override val blockPattern: CustomBlockPattern = CustomBlockPatternBuilder.start().
+   override val blockPattern: BlockPattern = BlockPatternBuilder.start().
    aisle(
        "___",
        "_d_",
@@ -59,7 +59,7 @@ class Thunderforge : MultiblockController, BlockWithEntity(Settings.of(Material.
 
     private var FORMED: BooleanProperty = BooleanProperty.of("formed")
     private var FACING = DirectionProperty.of("facing")
-    private var IN_MULTI = BooleanProperty.of("in_multi")
+    private var DISABLE_RENDERER = BooleanProperty.of("disable_renderer")
 
     init {
         defaultState = defaultState.with(FORMED, false).with(FACING, Direction.NORTH)
@@ -85,13 +85,22 @@ class Thunderforge : MultiblockController, BlockWithEntity(Settings.of(Material.
             if (player!!.isHolding(Items.AMETHYST_SHARD) && !world.getBlockState(pos).get(FORMED)) {
                 if (canForm(world, pos!!, player.world.registryKey) != null) {
                     world.setBlockState(pos, state!!.with(FORMED, true))
-                    println(blockPattern.posArray.size)
-                    blockPattern.posArray.forEach {
-                        if(world.getBlockState(it).block in blocksUsed) {
-                            world.setBlockState(it, world.getBlockState(it).with(IN_MULTI, true))
+                    val i: Int = Math.max(Math.max(blockPattern.width, blockPattern.height), blockPattern.depth)
+                    val iterator: Iterator<BlockPos> = BlockPos.iterate(pos, pos.add(i - 1, i - 1, i - 1)).iterator()
+
+                    iterator.forEach {
+                            if(world.getBlockState(it).block in blocksUsed) {
+                                world.setBlockState(it, world.getBlockState(it).with(DISABLE_RENDERER, true))
+                                world.getBlockState(it).block
                         }
-                        println(it.toString())
                     }
+//                    println(blockPattern.posArray.size)
+////                    blockPattern.posArray.forEach {
+////                        if(world.getBlockState(it).block in blocksUsed) {
+////                            world.setBlockState(it, world.getBlockState(it).with(IN_MULTI, true))
+////                        }
+////                        println(it.toString())
+////                    }
                 }
             }
         } else {
